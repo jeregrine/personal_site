@@ -18,6 +18,7 @@ This is a personal website generator that has both highly and weakly held opinon
 - A development server is included and may be used like `mix serve`, the reuqested file will compile fully on each request.
 - Global bindings go into `./config/config.exs` in the `personal_site` application.
 
+
 ### Anti-Goals
 - Be everything for everyone.
 - Run as a binary on your system.
@@ -59,8 +60,10 @@ In 6months when you've forgotten you have a website and have a new machine the o
 *Do Not* use the development server in production. If you then that's on you.
 *DO* check the outputs in deploy if you are paranoid.
 
+## Extensionless Routing
+Please pull these commits https://github.com/jeregrine/personal_site/pull/4
+
 ## TODO
-- [ ] add a blog listing with front matter to the bindings of every page.
 - [ ] figure out the head binding/front-matter or dont
 
 ## Liscense

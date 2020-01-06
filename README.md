@@ -49,7 +49,7 @@ I could but also you could edit the code.
 
 I personally really hate dealing with dependencies, versions changing and docs from other people. Usually if I can't find something in the docs with a ctrl-f or a stack overflow post I end up reading the code anyways.
 
-And I feel that with tools like Jekyll and now the beast Gastby we've lost site of why computers are so good. We tell them to do stuff and they do it. If you don't like how the Jekyll you could fork it, change it and then you gotta maintain a custom fork of Jekyll and anyone who follows you also needs to know what and why you did it.
+And I feel that with tools like Jekyll and now the beast Gastby we've lost sight of why computers are so good. We tell them to do stuff and they do it. If you don't like how the Jekyll you could fork it, change it and then you gotta maintain a custom fork of Jekyll and anyone who follows you also needs to know what and why you did it.
 
 With this you fork the repo immediately and we skip the part where you read docs that I or the community pretend to have time to keep up to date. The only dependency for your machine is Elixir 1.9 at time of writing but I wager this would work all future versions as well. The only Elixir specific depdencies are Plug and Earmark for the development server and Markdown respectfully. If you don't like nor need them you can change it and change the 3ish spots they get used.
 

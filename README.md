@@ -9,7 +9,7 @@ This is a personal website generator that has both highly and weakly held opinon
 - All static files live in `./static` and will be copied to directly to the folder `./_deploy/static`.
 - All files you should need to edit daily will live in `./templates`.
   - If you have a file in there it should be html or markdown as EEX Templates `.html.eex` or `.md.eex`.
-  - If you want a static page feel free to put in the top level directory ofr `./templates`
+  - If you want a static page feel free to put in the top level directory of `./templates`
   - All layouts will go into `./templates/layouts` and contain a  `<%= @body %>` element for where you want the page to go.
 - All Blog Posts should live in `./templates/blog` and be html or markdown EEX templates and will be deployed to `./_deploy/blog/`
 - Every page and post may contain a front matter section

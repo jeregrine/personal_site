@@ -1,5 +1,7 @@
 defmodule PersonalSite do
   use Phoenix.Component
+  import Components.Core
+  import Components.Layout
   import Phoenix.HTML
 
   def post(assigns) do
@@ -21,16 +23,6 @@ defmodule PersonalSite do
         </li>
       </ul>
     </.layout>
-    """
-  end
-
-  def layout(assigns) do
-    ~H"""
-    <html>
-      <body>
-        <%= render_slot(@inner_block) %>
-      </body>
-    </html>
     """
   end
 end

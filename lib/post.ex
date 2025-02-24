@@ -1,11 +1,27 @@
 defmodule Post do
-  @enforce_keys [:title, :url, :published, :status, :created, :path, :body]
-  defstruct [:title, :url, :published, :status, :created, :path, :body]
+  @blog_dir "b"
+  @enforce_keys [:title, :published, :status, :created, :path, :body, :slug]
+  defstruct [:title, :url, :published, :status, :created, :path, :body, :slug]
 
   def build(filename, attrs, body) do
     attrs = Map.take(attrs, @enforce_keys)
     title = filename |> Path.rootname() |> Path.split() |> Enum.take(-1) |> hd
-    struct!(__MODULE__, [path: filename, body: body, title: title] ++ Map.to_list(attrs))
+
+    slug =
+      if attrs[:url] do
+        attrs.url |> URI.parse() |> Map.get(:path)
+      else
+        title |> Slug.slugify()
+      end
+
+    path = Path.join(["/", @blog_dir, slug, "/"])
+
+    dbg()
+
+    struct!(
+      __MODULE__,
+      Map.to_list(attrs) ++ [path: path, body: body, title: title, slug: slug]
+    )
   end
 
   def parse(filename, contents) do
@@ -16,7 +32,7 @@ defmodule Post do
           |> Enum.map(fn {k, v} -> {String.to_atom(k), v} end)
           |> Map.new()
 
-        {Map.put(f, :path, filename), b}
+        {f, b}
     end
   end
 

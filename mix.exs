@@ -7,7 +7,8 @@ defmodule PersonalSite.MixProject do
       version: "0.1.0",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
@@ -22,7 +23,21 @@ defmodule PersonalSite.MixProject do
       {:nimble_publisher, "~> 1.0"},
       {:phoenix_live_view, "~> 1.0"},
       {:mdex, "~> 0.3.3"},
-      {:yaml_elixir, "~> 2.11"}
+      {:yaml_elixir, "~> 2.11"},
+      {:tailwind, "~> 0.2", only: :dev},
+      {:slugify, "~> 1.3"}
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["tailwind.install --if-missing"],
+      publish: [
+        "clean",
+        "compile",
+        "tailwind personal_site --minify",
+        "build"
+      ]
     ]
   end
 end

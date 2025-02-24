@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* This file is for your main application CSS */
+@layer components {
+    .wrap {
+        @apply lg:w-[37em] w-[88vw];
+    }
+    .wrap-wide {
+        @apply w-[88vw];
+    }
+    /* ... */
+}
+
+html {
+    font-size: 1.5rem;
+    font-size: calc(1rem + 0.25vw);
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+}
+
+::selection {
+    @apply bg-purple-100;
+}
+
+::-moz-selection {
+    @apply bg-purple-100;
+}

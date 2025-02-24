@@ -1,20 +1,17 @@
 defmodule Build do
   @output_dir "./output"
-  File.mkdir_p!(@output_dir)
 
   def build() do
+    File.rm_rf!(@output_dir)
+    File.mkdir_p!(@output_dir)
     posts = Blog.published()
 
-    render_file("index.html", PersonalSite.index(%{posts: posts}))
+    render_file(Path.join(@output_dir, "index.html"), PersonalSite.index(%{posts: posts}))
 
     for post <- posts do
-      dir = Path.dirname(post.path)
-
-      if dir != "." do
-        File.mkdir_p!(Path.join([@output_dir, dir]))
-      end
-
-      render_file(post.path, PersonalSite.post(%{post: post}))
+      dir = Path.join([@output_dir, post.path])
+      File.mkdir_p!(dir)
+      render_file(Path.join([dir, "index.html"]), PersonalSite.post(%{post: post}))
     end
 
     :ok
@@ -22,7 +19,6 @@ defmodule Build do
 
   def render_file(path, rendered) do
     safe = Phoenix.HTML.Safe.to_iodata(rendered)
-    output = Path.join([@output_dir, path])
-    File.write!(output, safe)
+    File.write!(path, safe)
   end
 end

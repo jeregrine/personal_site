@@ -25,7 +25,14 @@ defmodule PersonalSite.MixProject do
       {:mdex, "~> 0.3.3"},
       {:yaml_elixir, "~> 2.11"},
       {:tailwind, "~> 0.2", only: :dev},
-      {:slugify, "~> 1.3"}
+      {:slugify, "~> 1.3"},
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.1.1",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1}
     ]
   end
 
@@ -35,8 +42,8 @@ defmodule PersonalSite.MixProject do
       publish: [
         "clean",
         "compile",
-        "tailwind personal_site --minify",
-        "build"
+        "build",
+        "tailwind personal_site --minify"
       ]
     ]
   end

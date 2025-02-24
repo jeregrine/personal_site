@@ -2,7 +2,7 @@ import Config
 
 # Configure tailwind (the version is required)
 config :tailwind,
-  version: "4.0.8",
+  version: "3.4.0",
   personal_site: [
     args: ~w(
       --config=tailwind.config.js

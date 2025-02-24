@@ -1,7 +1,7 @@
 defmodule Post do
   @blog_dir "b"
-  @enforce_keys [:title, :published, :status, :created, :path, :body, :slug]
-  defstruct [:title, :url, :published, :status, :created, :path, :body, :slug]
+  @enforce_keys [:title, :published, :status, :created, :path, :body, :slug, :tags, :url]
+  defstruct [:title, :url, :published, :status, :created, :path, :body, :slug, :tags]
 
   def build(filename, attrs, body) do
     attrs = Map.take(attrs, @enforce_keys)
@@ -9,18 +9,28 @@ defmodule Post do
 
     slug =
       if attrs[:url] do
-        attrs.url |> URI.parse() |> Map.get(:path)
+        attrs.url
+        |> URI.parse()
+        |> Map.get(:path)
+        |> Path.rootname()
+        |> Path.split()
+        |> Enum.take(-1)
+        |> hd
       else
         title |> Slug.slugify()
       end
 
     path = Path.join(["/", @blog_dir, slug, "/"])
 
-    dbg()
+    created =
+      case Map.get(attrs, :created) do
+        str when is_binary(str) -> Date.from_iso8601!(str)
+        c -> c
+      end
 
     struct!(
       __MODULE__,
-      Map.to_list(attrs) ++ [path: path, body: body, title: title, slug: slug]
+      Map.to_list(attrs) ++ [path: path, body: body, title: title, slug: slug, created: created]
     )
   end
 

@@ -6,7 +6,7 @@ defmodule Build do
     File.mkdir_p!(@output_dir)
     posts = Blog.published()
 
-    render_file(Path.join(@output_dir, "index.html"), PersonalSite.index(%{posts: posts}))
+    index(posts)
 
     for post <- posts do
       dir = Path.join([@output_dir, post.path])
@@ -15,6 +15,27 @@ defmodule Build do
     end
 
     :ok
+  end
+
+  def index(posts) do
+    latest = hd(posts)
+
+    tags =
+      Enum.flat_map(posts, fn a -> a.tags || [] end)
+      |> Enum.frequencies()
+      |> Enum.sort(fn {_, a}, {_, b} -> a > b end)
+      |> Enum.map(fn {tag, _count} -> String.trim(tag) end)
+      |> Enum.with_index()
+
+    render_file(
+      Path.join(@output_dir, "index.html"),
+      PersonalSite.index(%{
+        posts: posts,
+        latest: latest,
+        topics: tags,
+        topic_count: Enum.count(tags)
+      })
+    )
   end
 
   def render_file(path, rendered) do

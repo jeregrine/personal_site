@@ -7,15 +7,7 @@ defmodule Components.Page do
     <ul class="text-stone-800">
       <li>
         RSS Feed:
-        <.ext_a href={url("/rss")}>RSS</.ext_a>
-      </li>
-      <li>
-        Twitter:
-        <.ext_a href="https://twitter.com/peregrine">@peregrine</.ext_a>
-      </li>
-      <li>
-        Mastodon:
-        <.ext_a href="https://merveilles.town/@peregrine">@peregrine</.ext_a>
+        <.ext_a href={url("/rss.xml")}>RSS</.ext_a>
       </li>
       <li>
         Bsky:
@@ -25,6 +17,10 @@ defmodule Components.Page do
         Github:
         <.ext_a href="https://github.com/jeregrine">jeregrine</.ext_a>
       </li>
+      <li>
+              Mastodon:
+              <.ext_a href="https://merveilles.town/@peregrine">@peregrine</.ext_a>
+            </li>
     </ul>
     """
   end

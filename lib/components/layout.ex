@@ -16,7 +16,7 @@ defmodule Components.Layout do
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
           <link rel="stylesheet" href="/assets/app.css">
         </head>
-        <body class="antialiased bg-gradient-to-t from-purple-50 to-neutral-50">
+        <body class="antialiased bg-gradient-to-t from-sky-50 to-neutral-50">
         <div class="mt-[2vw] mb-0 mx-auto pt-3 px-0 pb-12">
           <header class="wrap mt-0 mx-auto mb-8 text-stone">
             <div class="flex items-center justify-between py-3">

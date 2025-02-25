@@ -7,12 +7,24 @@ defmodule Build do
     posts = Blog.published()
 
     index(posts)
+    dir = Path.join([@output_dir, "about"])
+    File.mkdir_p!(dir)
+    render_file(Path.join([dir, "index.html"]), PersonalSite.about(%{}))
 
     for post <- posts do
       dir = Path.join([@output_dir, post.path])
       File.mkdir_p!(dir)
       render_file(Path.join([dir, "index.html"]), PersonalSite.post(%{post: post}))
     end
+
+    last_build_date = hd(Enum.sort_by(posts, & &1.created, &>/2)).created
+
+    safe =
+      PersonalSite.rss(%{articles: posts, last_build_date: last_build_date})
+      |> XML.Engine.encode_to_iodata!()
+
+    Path.join(@output_dir, "rss.xml")
+    |> File.write!(safe)
 
     :ok
   end

@@ -61,7 +61,7 @@ defmodule Components.Core do
     ~H"""
     <a
       class={[
-        "hover:text-purple-500 cursor-pointer",
+        "hover:text-sky-500 visited:text-sky-750 cursor-pointer",
         @class
       ]}
       href={@href}
@@ -81,7 +81,7 @@ defmodule Components.Core do
     ~H"""
     <a
       class={[
-        "hover:text-purple-500 cursor-pointer",
+        "hover:text-sky-500 visited:text-sky-750 cursor-pointer",
         @class
       ]}
       href={@href}
@@ -115,6 +115,16 @@ defmodule Components.Core do
 
   def to_rfc822(nil) do
     ""
+  end
+
+  def to_rfc822(%Date{} = date) do
+    {:ok, dt} = DateTime.new(date, ~T[12:00:00.000], "Etc/UTC")
+    to_rfc822(dt)
+  end
+
+  def to_rfc822(%DateTime{} = date) do
+    date
+    |> Calendar.strftime("%a, %-d %b %Y %X GMT")
   end
 
   def to_rfc822(date) do

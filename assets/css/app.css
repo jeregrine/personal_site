@@ -21,9 +21,9 @@ html {
 }
 
 ::selection {
-    @apply bg-purple-100;
+    @apply bg-sky-200;
 }
 
 ::-moz-selection {
-    @apply bg-purple-100;
+    @apply bg-sky-200;
 }

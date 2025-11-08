@@ -106,6 +106,13 @@ jobs:
           NOTES_PATH: ${{ github.workspace }}/notes
         run: mix publish
 
+      - name: Debug - List output directory
+        run: |
+          echo "=== Output directory structure ==="
+          find output -type f -o -type d
+          echo "=== Output/assets contents ==="
+          ls -la output/assets/ || echo "output/assets does not exist"
+
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
         with:

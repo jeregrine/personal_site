@@ -91,6 +91,7 @@ defmodule Post do
       |> Path.join()
 
     if File.exists?(obs_path) do
+      File.mkdir_p!(Path.dirname(out_path))
       File.cp!(obs_path, out_path)
 
       %{node | url: Path.join(["/assets", fname])}
@@ -100,6 +101,7 @@ defmodule Post do
       url = Path.join([attrs.url, "assets", Path.basename(node.url)])
       Req.get(url, into: File.stream!(obs_path))
 
+      File.mkdir_p!(Path.dirname(out_path))
       File.cp!(obs_path, out_path)
       %{node | url: Path.join(["/assets", fname])}
     end

@@ -5,7 +5,7 @@ defmodule Blog do
     as: :posts,
     highlighters: [],
     parser: Post,
-    converter: Post
+    html_converter: Post
 
   def all, do: @posts
 
@@ -18,5 +18,9 @@ defmodule Blog do
   def by_slug(slug) do
     published()
     |> Enum.find(fn post -> post.slug == slug end)
+  end
+
+  def dev_mode?() do
+    Application.get_env(:personal_site, :dev_mode, false)
   end
 end

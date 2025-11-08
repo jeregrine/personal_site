@@ -34,7 +34,7 @@ defmodule Components.Page do
       <.a :for={a <- @articles} href={url(a)} class="flex flex-row items-center">
         <.date :if={@show_date} dt={a.created} class=" text-stone-400 text-sm pr-3 min-w-28" />
         <span class="flex-grow">
-          <%= if a.url do %>
+          <%= if !Blog.dev_mode?() &&  a.url do %>
             <%= a.title %><.icon class="w-2 h-2 underline" name="hero-arrow-top-right-on-square" />
           <% else %>
             <%= a.title %>

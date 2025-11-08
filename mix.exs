@@ -34,7 +34,8 @@ defmodule PersonalSite.MixProject do
        compile: false,
        depth: 1},
       {:plug, "~> 1.18"},
-      {:bandit, "~> 1.8"}
+      {:bandit, "~> 1.8"},
+      {:req, "~> 0.5.15"}
     ]
   end
 

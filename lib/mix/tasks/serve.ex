@@ -2,12 +2,18 @@ defmodule Mix.Tasks.Serve do
   use Mix.Task
 
   @impl Mix.Task
-  def run(_args) do
+  def run(args) do
+    {parsed, _args, _other} = OptionParser.parse(args, strict: [dev: :boolean])
+
+    Application.put_env(:personal_site, :dev_mode, parsed[:dev] || false)
+
     Mix.shell().info("Serving on localhost:4000...")
 
     Application.ensure_started(:telemetry)
 
-    {:ok, _} =
+    Bandit.Clock.start_link([])
+
+    {:ok, _pid} =
       Bandit.start_link(
         plug: DevServer,
         scheme: :http,
@@ -65,6 +71,10 @@ defmodule DevServer do
     |> send_resp(200, resp)
   end
 
+  def static(%Plug.Conn{state: :sent} = conn, _opts) do
+    conn
+  end
+
   def static(conn, _opts) do
     dir = Path.expand("./output")
 
@@ -93,6 +103,8 @@ defmodule DevServer do
         Path.wildcard("./lib/{post, blog, build}.ex") | Path.wildcard("lib/components/*.ex")
       ]
 
+      Code.compiler_options(ignore_module_conflict: true)
+
       Kernel.ParallelCompiler.compile(paths,
         return_diagnostics: true
       )
@@ -102,6 +114,11 @@ defmodule DevServer do
   end
 
   def not_found(conn, _opts) do
-    send_resp(conn, 404, "not found")
+    if conn.state == :sent do
+      conn
+    else
+      dbg(conn)
+      send_resp(conn, 404, "not found")
+    end
   end
 end

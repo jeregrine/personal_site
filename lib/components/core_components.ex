@@ -160,11 +160,11 @@ defmodule Components.Core do
   end
 
   def url(%Post{} = post) do
-    if post.url do
-      post.url
-    else
+    if Blog.dev_mode?() do
       # TODO full path
-      post.path
+      "/b/#{post.slug}/"
+    else
+      post.url
     end
   end
 

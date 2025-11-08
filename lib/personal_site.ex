@@ -55,7 +55,6 @@ defmodule PersonalSite do
       <.ext_a href="https://rokkincat.com/">RokkinCat</.ext_a> a software consultancy for 10 years. I am passionate about helping people build a better future. I am also a big fan of open source software and have been a core contributor to the
       <.ext_a href="https://www.phoenixframework.org/">Phoenix Framework</.ext_a>.
     </p>
-
     <hr class="my-8" />
     <p class="text-lg text-stone-700 py-3">Follow me</p>
     <.social_links />
@@ -124,8 +123,11 @@ defmodule PersonalSite do
             <link><%= url(article) %></link>
             <guid><%= url(article) %></guid>
             <description>
+            <![CDATA[
 
-            <%= truncate article.body %>
+            <%= truncate(article.body) %>
+
+            ]]>
             </description>
             <pubDate><%= article.created |> to_rfc822 %></pubDate>
             <source url="~">Jason Stiebs's Writing</source>
@@ -133,6 +135,7 @@ defmodule PersonalSite do
         <% end %>
       </channel>
     </rss>
+
 
     """
   end

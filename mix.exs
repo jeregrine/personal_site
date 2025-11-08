@@ -22,7 +22,7 @@ defmodule PersonalSite.MixProject do
     [
       {:nimble_publisher, "~> 1.0"},
       {:phoenix_live_view, "~> 1.0"},
-      {:mdex, "~> 0.3.3"},
+      {:mdex, "~> 0.9.4"},
       {:yaml_elixir, "~> 2.11"},
       {:tailwind, "~> 0.2", only: :dev},
       {:slugify, "~> 1.3"},
@@ -32,7 +32,9 @@ defmodule PersonalSite.MixProject do
        sparse: "optimized",
        app: false,
        compile: false,
-       depth: 1}
+       depth: 1},
+      {:plug, "~> 1.18"},
+      {:bandit, "~> 1.8"}
     ]
   end
 

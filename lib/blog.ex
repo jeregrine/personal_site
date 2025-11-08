@@ -10,5 +10,13 @@ defmodule Blog do
   def all, do: @posts
 
   def published,
-    do: @posts |> Enum.filter(&("published" in &1.status)) |> Enum.sort_by(& &1.created, :desc)
+    do:
+      @posts
+      |> Enum.filter(&("published" in &1.status))
+      |> Enum.sort_by(& &1.published, {:desc, Date})
+
+  def by_slug(slug) do
+    published()
+    |> Enum.find(fn post -> post.slug == slug end)
+  end
 end

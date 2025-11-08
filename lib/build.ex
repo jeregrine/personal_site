@@ -4,29 +4,38 @@ defmodule Build do
   def build() do
     File.rm_rf!(@output_dir)
     File.mkdir_p!(@output_dir)
+
     posts = Blog.published()
 
-    index(posts)
-    dir = Path.join([@output_dir, "about"])
-    File.mkdir_p!(dir)
-    render_file(Path.join([dir, "index.html"]), PersonalSite.about(%{}))
+    [index(posts), about(), posts(posts), rss(posts)]
+    |> List.flatten()
+    |> Enum.each(&render_file/1)
 
+    :ok
+  end
+
+  def post(post) do
+    {[post.path], PersonalSite.post(%{post: post})}
+  end
+
+  def posts(posts) do
     for post <- posts do
-      dir = Path.join([@output_dir, post.path])
-      File.mkdir_p!(dir)
-      render_file(Path.join([dir, "index.html"]), PersonalSite.post(%{post: post}))
+      post(post)
     end
+  end
 
+  def rss(posts) do
     last_build_date = hd(Enum.sort_by(posts, & &1.created, &>/2)).created
 
     safe =
       PersonalSite.rss(%{articles: posts, last_build_date: last_build_date})
       |> XML.Engine.encode_to_iodata!()
 
-    Path.join(@output_dir, "rss.xml")
-    |> File.write!(safe)
+    {["rss.xml"], {:safe, safe}}
+  end
 
-    :ok
+  def about() do
+    {["about", "index.html"], PersonalSite.about(%{})}
   end
 
   def index(posts) do
@@ -39,19 +48,41 @@ defmodule Build do
       |> Enum.map(fn {tag, _count} -> String.trim(tag) end)
       |> Enum.with_index()
 
-    render_file(
-      Path.join(@output_dir, "index.html"),
-      PersonalSite.index(%{
-        posts: posts,
-        latest: latest,
-        topics: tags,
-        topic_count: Enum.count(tags)
-      })
-    )
+    {["index.html"],
+     PersonalSite.index(%{
+       posts: posts,
+       latest: latest,
+       topics: tags,
+       topic_count: Enum.count(tags)
+     })}
   end
 
-  def render_file(path, rendered) do
-    safe = Phoenix.HTML.Safe.to_iodata(rendered)
+  def render_file({fname, {:safe, safe}}) do
+    dir = Path.expand("./output")
+
+    path =
+      List.flatten([dir | fname])
+      |> Path.join()
+
+    File.mkdir_p!(Path.dirname(path))
+
+    File.write!(path, safe)
+  end
+
+  def render_file({fname, rendered}) do
+    dir = Path.expand("./output")
+
+    path =
+      List.flatten([dir | fname])
+      |> Path.join()
+
+    File.mkdir_p!(Path.dirname(path))
+
+    safe =
+      Phoenix.HTML.Safe.to_iodata(rendered)
+      |> to_string()
+      |> Phoenix.LiveView.HTMLFormatter.format(file: path)
+
     File.write!(path, safe)
   end
 end

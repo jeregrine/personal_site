@@ -28,13 +28,20 @@ defmodule Post do
         c -> c
       end
 
+    published =
+      case Map.get(attrs, :published) do
+        str when is_binary(str) -> Date.from_iso8601!(str)
+        _c -> created
+      end
+
     struct!(
       __MODULE__,
-      Map.to_list(attrs) ++ [path: path, body: body, title: title, slug: slug, created: created]
+      Map.to_list(attrs) ++
+        [path: path, body: body, title: title, slug: slug, created: created, published: published]
     )
   end
 
-  def parse(filename, contents) do
+  def parse(_filename, contents) do
     case String.split(contents, "---", trim: true, parts: 2) do
       [f, b] ->
         f =

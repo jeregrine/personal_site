@@ -75,7 +75,7 @@ defmodule XML.Engine do
     EEx.Engine.handle_expr(state, marker, ast)
   end
 
-  def encode_to_iodata!(data), do: to_iodata(dbg(data))
+  def encode_to_iodata!(data), do: to_iodata(data)
 
   defp to_iodata([h | t]), do: [to_iodata(h) | to_iodata(t)]
   defp to_iodata(text) when is_binary(text), do: text

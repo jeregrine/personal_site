@@ -66,9 +66,7 @@ defmodule Components.Core do
       ]}
       href={@href}
       {@rest}
-    >
-      <%= render_slot(@inner_block) %>
-    </a>
+    ><%= render_slot(@inner_block) %></a>
     """
   end
 
@@ -79,15 +77,7 @@ defmodule Components.Core do
 
   def ext_a(assigns) do
     ~H"""
-    <a
-      class={[
-        "hover:text-sky-500 visited:text-sky-750 cursor-pointer",
-        @class
-      ]}
-      href={@href}
-      target="_blank"
-      {@rest}
-    >
+    <a class={[ "hover:text-sky-500 visited:text-sky-750 cursor-pointer", @class ]} href={@href} target="_blank" {@rest}>
       <span class="underline"><%= render_slot(@inner_block) %></span>
       <.icon class="w-2 h-2 underline mx-[-0.25rem]" name="hero-arrow-top-right-on-square" />
     </a>

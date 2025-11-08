@@ -14,6 +14,7 @@ defmodule Mix.Tasks.Serve do
         port: 4000
       )
 
+    Tailwind.run(:personal_site, ["--watch"])
     Process.sleep(:infinity)
   end
 end
@@ -27,14 +28,14 @@ defmodule DevServer do
   plug(:not_found)
 
   def page(conn, _opts) do
-    dbg(conn.path_info)
-
     case conn.path_info do
       [] ->
+        hot_reload!()
         posts = Blog.published()
         heex(conn, Build.index(posts))
 
       ["b", fname] ->
+        hot_reload!()
         post = Blog.by_slug(fname)
 
         if post do
@@ -44,11 +45,11 @@ defmodule DevServer do
         end
 
       ["about"] ->
-        IO.puts("HELLO")
+        hot_reload!()
         heex(conn, Build.about())
 
       ["rss.xml"] ->
-        IO.puts("Hello")
+        hot_reload!()
         heex(conn, Build.rss(Blog.published()))
 
       _ ->
@@ -83,6 +84,20 @@ defmodule DevServer do
 
       {:error, _reason} ->
         conn
+    end
+  end
+
+  def hot_reload!() do
+    try do
+      paths = [
+        Path.wildcard("./lib/{post, blog, build}.ex") | Path.wildcard("lib/components/*.ex")
+      ]
+
+      Kernel.ParallelCompiler.compile(paths,
+        return_diagnostics: true
+      )
+    rescue
+      e -> dbg(e)
     end
   end
 

@@ -79,7 +79,7 @@ defmodule XML.Engine do
 
   defp to_iodata([h | t]), do: [to_iodata(h) | to_iodata(t)]
   defp to_iodata(text) when is_binary(text), do: text
-  defp to_iodata(i), do: to_string(i)
   defp to_iodata(%DateTime{} = date), do: DateTime.to_iso8601(date)
   defp to_iodata([]), do: ""
+  defp to_iodata(i), do: to_string(i)
 end

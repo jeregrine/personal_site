@@ -24,3 +24,4 @@ personal_site-*.tar
 
 .lexical
 /output
+.elixir_ls

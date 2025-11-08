@@ -31,7 +31,7 @@ defmodule PersonalSite do
     ~H"""
     <.layout>
     <p class="text-md text-stone-600 py-3">
-      Writing
+      Writings
     </p>
     <.article_list articles={@posts} />
 
@@ -57,6 +57,7 @@ defmodule PersonalSite do
     </p>
     <hr class="my-8" />
     <p class="text-lg text-stone-700 py-3">Follow me</p>
+
     <.social_links />
 
     <hr class="my-8" />

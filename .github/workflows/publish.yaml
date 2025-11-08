@@ -8,8 +8,6 @@ on:
   push:
     branches: ["main"]
 
-env:
-  NOTES_PATH: "${{github.workspace}}/notes"
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -48,7 +46,7 @@ jobs:
         with:
           repository: jeregrine/notes
           token: ${{ secrets.NOTES_PAT }}
-          path: ${{ env.NOTES_PATH }}
+          path: notes
           sparse-checkout: |
             Blog
             Attachments
@@ -104,6 +102,8 @@ jobs:
 
       # Step: Execute the tests.
       - name: Publish Site
+        env:
+          NOTES_PATH: ${{ github.workspace }}/notes
         run: mix publish
 
       - name: Upload static files as artifact

@@ -117,7 +117,6 @@ defmodule DevServer do
     if conn.state == :sent do
       conn
     else
-      dbg(conn)
       send_resp(conn, 404, "not found")
     end
   end

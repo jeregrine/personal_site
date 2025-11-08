@@ -96,9 +96,6 @@ defmodule Post do
       %{node | url: Path.join(["/assets", fname])}
     else
       Application.ensure_all_started(:req)
-      dbg(node)
-      dbg(opts)
-      dbg(attrs)
 
       url = Path.join([attrs.url, "assets", Path.basename(node.url)])
       Req.get(url, into: File.stream!(obs_path))

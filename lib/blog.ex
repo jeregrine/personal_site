@@ -1,7 +1,8 @@
 defmodule Blog do
   use NimblePublisher,
     build: Post,
-    from: Path.expand("~/notes/Blog/*.md"),
+    from:
+      Path.expand(Path.join([Application.compile_env(:personal_site, :notes_path), "Blog/*.md"])),
     as: :posts,
     highlighters: [],
     parser: Post,

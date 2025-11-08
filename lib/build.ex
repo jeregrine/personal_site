@@ -73,16 +73,21 @@ defmodule Build do
     dir = Path.expand("./output")
 
     path =
-      List.flatten([dir | fname])
+      List.flatten([dir, fname])
       |> Path.join()
-
-    File.mkdir_p!(Path.dirname(path))
 
     safe =
       Phoenix.HTML.Safe.to_iodata(rendered)
       |> to_string()
       |> Phoenix.LiveView.HTMLFormatter.format(file: path)
 
-    File.write!(path, safe)
+    if fname == ["index.html"] do
+      File.mkdir_p!(Path.dirname(path))
+      File.write!(path, safe)
+    else
+      index_path = Path.join(path, "index.html")
+      File.mkdir_p!(path)
+      File.write!(index_path, safe)
+    end
   end
 end

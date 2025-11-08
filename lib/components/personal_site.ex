@@ -48,10 +48,11 @@ defmodule PersonalSite do
     <.title>About me</.title>
 
     <p class="py-3">
-      My name is Jason. Known on the internet as peregrine, I am a software engineer and entrepreneur. I am currently building sattelites with <.ext_a href="https://www.trueanomaly.space">True Anomaly</.ext_a>.
+      My name is Jason. Known on the internet as peregrine, I am a software engineer and entrepreneur.
+      Currently with <.ext_a href="https://www.strivepharmacy.com/">Strive</.ext_a> building software to help compounding pharmacies thrive.
     </p>
     <p class="py-3">
-      Previously with <.ext_a href="https://fly.io">Fly.io</.ext_a> writing for Phoenix Files and working on the dashboard. Before that, I co-founded and ran
+      Previously with <.ext_a href="https://www.trueanomaly.space">True Anomaly</.ext_a> working on orbital dynamics. <.ext_a href="https://fly.io">Fly.io</.ext_a> writing for Phoenix Files and working on the dashboard. Before that, I co-founded and ran
       <.ext_a href="https://rokkincat.com/">RokkinCat</.ext_a> a software consultancy for 10 years. I am passionate about helping people build a better future. I am also a big fan of open source software and have been a core contributor to the
       <.ext_a href="https://www.phoenixframework.org/">Phoenix Framework</.ext_a>.
     </p>

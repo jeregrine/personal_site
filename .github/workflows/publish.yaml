@@ -104,6 +104,7 @@ jobs:
       - name: Publish Site
         env:
           NOTES_PATH: ${{ github.workspace }}/notes
+          CNAME: your-domain.com
         run: mix publish
 
       - name: Debug - List output directory
@@ -112,6 +113,8 @@ jobs:
           find output -type f -o -type d
           echo "=== Output/assets contents ==="
           ls -la output/assets/ || echo "output/assets does not exist"
+          echo "=== HTML head section from index.html ==="
+          head -n 20 output/index.html
 
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action

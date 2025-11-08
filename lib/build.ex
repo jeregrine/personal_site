@@ -12,6 +12,11 @@ defmodule Build do
     |> List.flatten()
     |> Enum.each(&render_file/1)
 
+    # Add CNAME file for custom domain if configured
+    if cname = System.get_env("CNAME") do
+      File.write!(Path.join(@output_dir, "CNAME"), cname)
+    end
+
     :ok
   end
 

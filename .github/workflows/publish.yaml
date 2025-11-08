@@ -100,10 +100,6 @@ jobs:
       - name: Install tailwind
         run: mix setup
 
-      # Step: Create output directory
-      - name: Create output directory
-        run: mkdir -p output/assets
-
       # Step: Execute the tests.
       - name: Publish Site
         env:

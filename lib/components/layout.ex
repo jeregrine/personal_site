@@ -15,6 +15,10 @@ defmodule Components.Layout do
           <link rel="preconnect" href="https://rsms.me/">
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
           <link rel="stylesheet" href="/assets/app.css">
+          <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+          <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+
+
         </head>
         <body class="antialiased bg-gradient-to-t to-sky-50 from-neutral-50">
         <div class="mb-0 mx-auto pt-3 px-0 pb-12">

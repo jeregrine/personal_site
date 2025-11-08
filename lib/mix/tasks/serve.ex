@@ -20,6 +20,11 @@ defmodule Mix.Tasks.Serve do
         port: 4000
       )
 
+    for f <- Path.wildcard("./assets/favicon*.*") do
+      fname = Path.basename(f)
+      File.cp!(f, Path.join("./output/assets", fname))
+    end
+
     Tailwind.run(:personal_site, ["--watch"])
     Process.sleep(:infinity)
   end

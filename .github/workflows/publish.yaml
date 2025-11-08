@@ -104,7 +104,6 @@ jobs:
       - name: Publish Site
         env:
           NOTES_PATH: ${{ github.workspace }}/notes
-          CNAME: your-domain.com
         run: mix publish
 
       - name: Debug - List output directory

@@ -4,18 +4,19 @@ defmodule Build do
   def build() do
     File.rm_rf!(@output_dir)
     File.mkdir_p!(@output_dir)
-    File.mkdir_p!(Path.join(@output_dir, "assets"))
+    assets_dir = Path.join(@output_dir, "assets")
+    File.mkdir_p!(assets_dir)
+
+    for f <- Path.wildcard("./assets/favicon*.*") do
+      fname = Path.basename(f)
+      File.cp!(f, Path.join("./output/assets", fname))
+    end
 
     posts = Blog.published()
 
     [index(posts), about(), posts(posts), rss(posts)]
     |> List.flatten()
     |> Enum.each(&render_file/1)
-
-    # Add CNAME file for custom domain if configured
-    if cname = System.get_env("CNAME") do
-      File.write!(Path.join(@output_dir, "CNAME"), cname)
-    end
 
     :ok
   end

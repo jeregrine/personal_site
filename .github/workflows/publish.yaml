@@ -16,15 +16,27 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Publish my site
     environment: github-pages
     permissions:
       contents: read
       pages: write
       id-token: write
+    strategy:
+      # Specify the OTP and Elixir versions to use when building
+      # and running the workflow steps.
+      matrix:
+        otp: ["28.1.0"] # Define the OTP version [required]
+        elixir: ["1.19.0"] # Define the elixir version [required]
     steps:
       # Step: Setup Elixir + Erlang image as the base.
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
       # step: check out the code.
       - name: checkout code
         uses: actions/checkout@v5

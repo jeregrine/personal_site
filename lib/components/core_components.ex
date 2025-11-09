@@ -16,7 +16,7 @@ defmodule Components.Core do
     <div class="mt-16">
       <.link
         navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-stone-900 hover:text-stone-700"
+        class="text-sm font-semibold leading-6 text-[#95e6cb] hover:text-[#aaffd7] transition-colors duration-150"
       >
         <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         <%= render_slot(@inner_block) %>
@@ -61,7 +61,7 @@ defmodule Components.Core do
     ~H"""
     <a
       class={[
-        "hover:text-sky-500 visited:text-sky-750 cursor-pointer",
+        "text-[#5ccfe6] hover:text-[#73d0ff] visited:text-[#95e6cb] cursor-pointer transition-colors duration-150",
         @class
       ]}
       href={@href}
@@ -77,8 +77,8 @@ defmodule Components.Core do
 
   def ext_a(assigns) do
     ~H"""
-    <a class={[ "hover:text-sky-500 visited:text-sky-750 cursor-pointer", @class ]} href={@href} target="_blank" {@rest}>
-      <span class="underline"><%= render_slot(@inner_block) %></span>
+    <a class={[ "text-[#5ccfe6] hover:text-[#73d0ff] visited:text-[#95e6cb] cursor-pointer transition-colors duration-150", @class ]} href={@href} target="_blank" {@rest}>
+      <span class="underline decoration-dotted"><%= render_slot(@inner_block) %></span>
       <.icon class="w-2 h-2 underline mx-[-0.25rem]" name="hero-arrow-top-right-on-square" />
     </a>
     """
@@ -128,10 +128,10 @@ defmodule Components.Core do
   def title(assigns) do
     ~H"""
     <h1
-      class="mb-1 mt-3 leading-2 text-3xl text-[calc(1.35em+0.55vw] font-medium text-gray-900"
+      class="mb-4 mt-3 leading-tight text-3xl font-bold text-[#ffd580] border-b-2 border-[#707a8c] pb-2"
       {@rest}
     >
-      <%= render_slot(@inner_block) %>
+      <span class="text-[#707a8c]"></span><%= render_slot(@inner_block) %>
     </h1>
     """
   end

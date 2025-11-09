@@ -5,25 +5,54 @@
 /* This file is for your main application CSS */
 @layer components {
     .wrap {
-        @apply lg:w-[37em] w-[88vw];
+        @apply lg:w-[42em] w-[90vw];
     }
     .wrap-wide {
-        @apply w-[88vw];
+        @apply w-[90vw];
     }
-    /* ... */
+
+    .tui-border {
+        @apply border-2 rounded-sm shadow-lg;
+        box-shadow: 0 0 20px rgba(92, 207, 230, 0.15);
+    }
+
+    .tui-box {
+        @apply border border-[#707a8c] rounded-sm p-4 bg-[#232834];
+    }
+
+    .tui-box-highlight {
+        @apply border border-[#5ccfe6] rounded-sm p-4 bg-[#232834];
+        box-shadow: 0 0 15px rgba(92, 207, 230, 0.1);
+    }
 }
 
 html {
-    font-size: 1.5rem;
-    font-size: calc(1rem + 0.25vw);
+    font-size: 1rem;
+    font-size: calc(0.9rem + 0.2vw);
     text-rendering: optimizeLegibility;
-    line-height: 1.5;
+    line-height: 1.7;
+    font-family: "Fira Mono", monospace;
+}
+
+body {
+    @apply bg-[#1f2430];
 }
 
 ::selection {
-    @apply bg-sky-200;
+    @apply bg-[#5ccfe6] bg-opacity-25 text-[#ffd580];
 }
 
 ::-moz-selection {
-    @apply bg-sky-200;
+    @apply bg-[#5ccfe6] bg-opacity-25 text-[#ffd580];
+}
+
+/* Fix for code block pseudo-elements creating weird lines */
+.prose pre::before,
+.prose pre::after {
+    content: none !important;
+}
+
+.prose code::before,
+.prose code::after {
+    content: none !important;
 }

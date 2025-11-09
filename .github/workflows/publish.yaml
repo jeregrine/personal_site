@@ -25,17 +25,6 @@ jobs:
       id-token: write
     steps:
       # Step: Setup Elixir + Erlang image as the base.
-      - name: Set up Elixir
-        run: |
-          curl -fsSO https://elixir-lang.org/install.sh
-          chmod +x install.sh
-          sh install.sh elixir@1.19.2 otp@28.1
-          installs_dir=$HOME/.elixir-install/installs
-          export PATH=$installs_dir/otp/28.1/bin:$PATH
-          export PATH=$installs_dir/elixir/1.19.2-otp-28/bin:$PATH
-
-        shell: sh
-
       # step: check out the code.
       - name: checkout code
         uses: actions/checkout@v5

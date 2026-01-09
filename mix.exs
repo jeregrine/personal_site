@@ -21,8 +21,8 @@ defmodule PersonalSite.MixProject do
   defp deps do
     [
       {:nimble_publisher, "~> 1.0"},
-      {:phoenix_live_view, "~> 1.0"},
-      {:mdex, "~> 0.9.4"},
+      {:phoenix_live_view, "~> 1.1"},
+      {:mdex, "~> 0.10.0"},
       {:yaml_elixir, "~> 2.11"},
       {:tailwind, "~> 0.2", only: :dev},
       {:slugify, "~> 1.3"},
@@ -33,9 +33,9 @@ defmodule PersonalSite.MixProject do
        app: false,
        compile: false,
        depth: 1},
-      {:plug, "~> 1.18"},
-      {:bandit, "~> 1.8"},
-      {:req, "~> 0.5.15"}
+      {:plug, "~> 1.19"},
+      {:bandit, "~> 1.9"},
+      {:req, "~> 0.5.16"}
     ]
   end
 

@@ -2,51 +2,106 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+/* Hybrid: Technical meets Editorial */
 @layer components {
     .wrap {
-        @apply lg:w-[42em] w-[90vw];
+        @apply lg:w-[40em] w-[90vw];
     }
     .wrap-wide {
         @apply w-[90vw];
     }
 
-    .tui-border {
-        @apply border-2 rounded-sm shadow-lg;
-        box-shadow: 0 0 20px rgba(92, 207, 230, 0.15);
+    /* Subtle card styling */
+    .hybrid-card {
+        @apply border border-[#D4CFC7] p-4 bg-[#F8F6F3];
+        transition: all 0.2s ease;
     }
 
-    .tui-box {
-        @apply border border-[#707a8c] rounded-sm p-4 bg-[#232834];
-    }
-
-    .tui-box-highlight {
-        @apply border border-[#5ccfe6] rounded-sm p-4 bg-[#232834];
-        box-shadow: 0 0 15px rgba(92, 207, 230, 0.1);
+    .hybrid-card:hover {
+        @apply border-[#B8860B] bg-[#FDFCFA];
     }
 }
 
+/* Typography - Mono base with minimal serif accents */
 html {
     font-size: 1rem;
-    font-size: calc(0.9rem + 0.2vw);
+    font-size: calc(0.9rem + 0.18vw);
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
     line-height: 1.7;
-    font-family: "Fira Mono", monospace;
+    font-family: "Fira Mono", "SF Mono", monospace;
 }
 
 body {
-    @apply bg-[#1f2430];
+    @apply bg-[#FAF7F2];
+    position: relative;
+    overflow-x: hidden;
 }
 
+/* Headings - clean sans or light serif */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Fira Mono", "SF Mono", monospace;
+    font-weight: 500;
+}
+
+/* Selection - warm gold */
 ::selection {
-    @apply bg-[#5ccfe6] bg-opacity-25 text-[#ffd580];
+    @apply bg-[#B8860B] bg-opacity-20 text-[#1A1A1A];
 }
 
 ::-moz-selection {
-    @apply bg-[#5ccfe6] bg-opacity-25 text-[#ffd580];
+    @apply bg-[#B8860B] bg-opacity-20 text-[#1A1A1A];
 }
 
-/* Fix for code block pseudo-elements creating weird lines */
+/* Geometric circles - bold and visible */
+.geometric-accent {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    pointer-events: none;
+    opacity: 0.75;
+    z-index: 0;
+}
+
+.geometric-accent::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-radial-gradient(
+            circle at center,
+            transparent 0px,
+            transparent 9px,
+            #C9A227 9px,
+            #C9A227 10px
+        );
+    border-radius: 50%;
+}
+
+.geometric-accent-tr {
+    top: -120px;
+    right: -120px;
+}
+
+.geometric-accent-bl {
+    bottom: -150px;
+    left: -150px;
+    opacity: 0.55;
+}
+
+@media (max-width: 768px) {
+    .geometric-accent {
+        width: 350px;
+        height: 350px;
+        opacity: 0.6;
+    }
+    .geometric-accent-bl {
+        opacity: 0.4;
+    }
+}
+
+/* Prose styling for markdown */
 .prose pre::before,
 .prose pre::after {
     content: none !important;
@@ -55,4 +110,25 @@ body {
 .prose code::before,
 .prose code::after {
     content: none !important;
+}
+
+/* Simple horizontal rule */
+hr {
+    border: none;
+    height: 1px;
+    background: #D4CFC7;
+}
+
+/* Article hover - minimal */
+.article-row {
+    transition: background 0.15s ease;
+}
+
+.article-row:hover {
+    background: rgba(184, 134, 11, 0.04);
+}
+
+/* Code blocks - dark but warm */
+pre {
+    background: #2A2622 !important;
 }

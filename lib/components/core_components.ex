@@ -3,20 +3,16 @@ defmodule Components.Core do
 
   @doc """
   Renders a back navigation link.
-
-  ## Examples
-
-      <.back navigate={~p"/posts"}>Back to posts</.back>
   """
   attr(:navigate, :any, required: true)
   slot(:inner_block, required: true)
 
   def back(assigns) do
     ~H"""
-    <div class="mt-16">
+    <div class="mt-12">
       <.link
         navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-[#95e6cb] hover:text-[#aaffd7] transition-colors duration-150"
+        class="text-sm font-mono text-[#6B6560] hover:text-[#B8860B] transition-colors"
       >
         <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         <%= render_slot(@inner_block) %>
@@ -27,21 +23,6 @@ defmodule Components.Core do
 
   @doc """
   Renders a [Heroicon](https://heroicons.com).
-
-  Heroicons come in three styles – outline, solid, and mini.
-  By default, the outline style is used, but solid and mini may
-  be applied by using the `-solid` and `-mini` suffix.
-
-  You can customize the size and colors of the icons by setting
-  width, height, and background color classes.
-
-  Icons are extracted from the `deps/heroicons` directory and bundled within
-  your compiled app.css by the plugin in your `assets/tailwind.config.js`.
-
-  ## Examples
-
-      <.icon name="hero-x-mark-solid" />
-      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
   """
   attr(:name, :string, required: true)
   attr(:class, :string, default: nil)
@@ -61,7 +42,7 @@ defmodule Components.Core do
     ~H"""
     <a
       class={[
-        "text-[#5ccfe6] hover:text-[#73d0ff] visited:text-[#95e6cb] cursor-pointer transition-colors duration-150",
+        "text-[#5C4A1F] hover:text-[#B8860B] cursor-pointer transition-colors",
         @class
       ]}
       href={@href}
@@ -77,9 +58,9 @@ defmodule Components.Core do
 
   def ext_a(assigns) do
     ~H"""
-    <a class={[ "text-[#5ccfe6] hover:text-[#73d0ff] visited:text-[#95e6cb] cursor-pointer transition-colors duration-150", @class ]} href={@href} target="_blank" {@rest}>
-      <span class="underline decoration-dotted"><%= render_slot(@inner_block) %></span>
-      <.icon class="w-2 h-2 underline mx-[-0.25rem]" name="hero-arrow-top-right-on-square" />
+    <a class={[ "text-[#5C4A1F] hover:text-[#B8860B] cursor-pointer transition-colors", @class ]} href={@href} target="_blank" {@rest}>
+      <span class="border-b border-[#B8860B]/30 hover:border-[#B8860B]"><%= render_slot(@inner_block) %></span>
+      <.icon class="w-2 h-2 ml-0.5 opacity-40" name="hero-arrow-top-right-on-square" />
     </a>
     """
   end
@@ -89,8 +70,8 @@ defmodule Components.Core do
 
   def date(assigns) do
     ~H"""
-    <time :if={@dt != nil} datetime={@dt} {@rest}>
-      <%= Calendar.strftime(@dt, "%x") %>
+    <time :if={@dt != nil} datetime={@dt} class="font-mono" {@rest}>
+      <%= Calendar.strftime(@dt, "%Y-%m-%d") %>
     </time>
     """
   end
@@ -103,9 +84,7 @@ defmodule Components.Core do
     end
   end
 
-  def to_rfc822(nil) do
-    ""
-  end
+  def to_rfc822(nil), do: ""
 
   def to_rfc822(%Date{} = date) do
     {:ok, dt} = DateTime.new(date, ~T[12:00:00.000], "Etc/UTC")
@@ -113,13 +92,11 @@ defmodule Components.Core do
   end
 
   def to_rfc822(%DateTime{} = date) do
-    date
-    |> Calendar.strftime("%a, %-d %b %Y %X GMT")
+    Calendar.strftime(date, "%a, %-d %b %Y %X GMT")
   end
 
   def to_rfc822(date) do
-    date
-    |> Calendar.strftime("%a, %-d %b %Y %X GMT")
+    Calendar.strftime(date, "%a, %-d %b %Y %X GMT")
   end
 
   attr(:rest, :global)
@@ -128,10 +105,10 @@ defmodule Components.Core do
   def title(assigns) do
     ~H"""
     <h1
-      class="mb-4 mt-3 leading-tight text-3xl font-bold text-[#ffd580] border-b-2 border-[#707a8c] pb-2"
+      class="mb-4 mt-2 leading-tight text-3xl lg:text-4xl font-medium text-[#1A1A1A]"
       {@rest}
     >
-      <span class="text-[#707a8c]"></span><%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </h1>
     """
   end
@@ -153,15 +130,14 @@ defmodule Components.Core do
       )
 
     ~H"""
-    <span {@rest}>
-      <%= @read_time %> min read
+    <span class="font-mono" {@rest}>
+      <%= @read_time %> min
     </span>
     """
   end
 
   def url(%Post{} = post) do
     if Blog.dev_mode?() do
-      # TODO full path
       "/b/#{post.slug}/"
     else
       post.url

@@ -9,27 +9,13 @@ defmodule Components.Core do
 
   def back(assigns) do
     ~H"""
-    <div class="mt-12">
+    <div class="back-link">
       <.link
         navigate={@navigate}
-        class="text-sm font-mono text-[#6B6560] hover:text-[#B8860B] transition-colors"
       >
-        <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         <%= render_slot(@inner_block) %>
       </.link>
     </div>
-    """
-  end
-
-  @doc """
-  Renders a [Heroicon](https://heroicons.com).
-  """
-  attr(:name, :string, required: true)
-  attr(:class, :string, default: nil)
-
-  def icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
     """
   end
 
@@ -41,10 +27,7 @@ defmodule Components.Core do
   def a(assigns) do
     ~H"""
     <a
-      class={[
-        "text-[#5C4A1F] hover:text-[#B8860B] cursor-pointer transition-colors",
-        @class
-      ]}
+      class={@class}
       href={@href}
       {@rest}
     ><%= render_slot(@inner_block) %></a>
@@ -58,10 +41,7 @@ defmodule Components.Core do
 
   def ext_a(assigns) do
     ~H"""
-    <a class={[ "text-[#5C4A1F] hover:text-[#B8860B] cursor-pointer transition-colors", @class ]} href={@href} target="_blank" {@rest}>
-      <span class="border-b border-[#B8860B]/30 hover:border-[#B8860B]"><%= render_slot(@inner_block) %></span>
-      <.icon class="w-2 h-2 ml-0.5 opacity-40" name="hero-arrow-top-right-on-square" />
-    </a>
+    <a class={@class} href={@href} {@rest}><%= render_slot(@inner_block) %></a>
     """
   end
 
@@ -70,7 +50,7 @@ defmodule Components.Core do
 
   def date(assigns) do
     ~H"""
-    <time :if={@dt != nil} datetime={@dt} class="font-mono" {@rest}>
+    <time :if={@dt != nil} datetime={@dt} {@rest}>
       <%= Calendar.strftime(@dt, "%Y-%m-%d") %>
     </time>
     """
@@ -105,7 +85,6 @@ defmodule Components.Core do
   def title(assigns) do
     ~H"""
     <h1
-      class="mb-4 mt-2 leading-tight text-3xl lg:text-4xl font-medium text-[#1A1A1A]"
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -130,7 +109,7 @@ defmodule Components.Core do
       )
 
     ~H"""
-    <span class="font-mono" {@rest}>
+    <span {@rest}>
       <%= @read_time %> min
     </span>
     """

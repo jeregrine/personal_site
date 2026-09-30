@@ -3,29 +3,28 @@ defmodule Mix.Tasks.Serve do
 
   @impl Mix.Task
   def run(args) do
+    Mix.Task.run("app.start")
     {parsed, _args, _other} = OptionParser.parse(args, strict: [dev: :boolean])
 
     Application.put_env(:personal_site, :dev_mode, parsed[:dev] || false)
 
     Mix.shell().info("Serving on localhost:4000...")
 
-    Application.ensure_started(:telemetry)
-
-    Bandit.Clock.start_link([])
-
     {:ok, _pid} =
       Bandit.start_link(
         plug: DevServer,
         scheme: :http,
+        ip: {127, 0, 0, 1},
         port: 4000
       )
+
+    File.mkdir_p!("./output/assets")
 
     for f <- Path.wildcard("./assets/favicon*.*") do
       fname = Path.basename(f)
       File.cp!(f, Path.join("./output/assets", fname))
     end
 
-    Tailwind.run(:personal_site, ["--watch"])
     Process.sleep(:infinity)
   end
 end
@@ -61,23 +60,30 @@ defmodule DevServer do
 
       ["rss.xml"] ->
         hot_reload!()
-        heex(conn, Build.rss(Blog.published()))
+        heex(conn, Build.rss(Blog.published()), "application/rss+xml")
 
       _ ->
         conn
     end
   end
 
-  defp heex(conn, {_, rendered}) do
+  defp heex(conn, {_, rendered}, content_type \\ "text/html") do
     resp = Phoenix.HTML.Safe.to_iodata(rendered)
 
     conn
-    |> Plug.Conn.put_resp_content_type("text/html")
+    |> Plug.Conn.put_resp_content_type(content_type)
     |> send_resp(200, resp)
   end
 
   def static(%Plug.Conn{state: :sent} = conn, _opts) do
     conn
+  end
+
+  def static(%Plug.Conn{path_info: ["assets", "app.css"]} = conn, _opts) do
+    conn
+    |> Plug.Conn.put_resp_content_type("text/css")
+    |> send_file(200, "assets/css/app.css")
+    |> halt()
   end
 
   def static(conn, _opts) do
@@ -104,9 +110,8 @@ defmodule DevServer do
 
   def hot_reload!() do
     try do
-      paths = [
-        Path.wildcard("./lib/{post, blog, build}.ex") | Path.wildcard("lib/components/*.ex")
-      ]
+      paths =
+        Path.wildcard("./lib/{post,blog,build}.ex") ++ Path.wildcard("lib/components/*.ex")
 
       Code.compiler_options(ignore_module_conflict: true)
 

@@ -97,7 +97,7 @@ jobs:
         run: mix deps.get
 
       # the cached version.
-      - name: Install tailwind
+      - name: Set up site
         run: mix setup
 
       # Step: Execute the tests.

@@ -6,6 +6,7 @@ defmodule Build do
     File.mkdir_p!(@output_dir)
     assets_dir = Path.join(@output_dir, "assets")
     File.mkdir_p!(assets_dir)
+    File.cp!("assets/css/app.css", Path.join(assets_dir, "app.css"))
 
     for f <- Path.wildcard("./assets/favicon*.*") do
       fname = Path.basename(f)
@@ -32,7 +33,11 @@ defmodule Build do
   end
 
   def rss(posts) do
-    last_build_date = hd(Enum.sort_by(posts, & &1.created, &>/2)).created
+    last_build_date =
+      case Enum.sort_by(posts, & &1.created, &>/2) do
+        [latest | _] -> latest.created
+        [] -> Date.utc_today()
+      end
 
     safe =
       PersonalSite.rss(%{articles: posts, last_build_date: last_build_date})
@@ -46,7 +51,7 @@ defmodule Build do
   end
 
   def index(posts) do
-    latest = hd(posts)
+    latest = List.first(posts)
 
     tags =
       Enum.flat_map(posts, fn a -> a.tags || [] end)
@@ -88,13 +93,8 @@ defmodule Build do
       |> to_string()
       |> Phoenix.LiveView.HTMLFormatter.format(file: path)
 
-    if fname == ["index.html"] do
-      File.mkdir_p!(Path.dirname(path))
-      File.write!(path, safe)
-    else
-      index_path = Path.join(path, "index.html")
-      File.mkdir_p!(path)
-      File.write!(index_path, safe)
-    end
+    path = if Path.extname(path) == "", do: Path.join(path, "index.html"), else: path
+    File.mkdir_p!(Path.dirname(path))
+    File.write!(path, safe)
   end
 end

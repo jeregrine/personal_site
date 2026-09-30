@@ -24,15 +24,7 @@ defmodule PersonalSite.MixProject do
       {:phoenix_live_view, "~> 1.1"},
       {:mdex, "~> 0.10.0"},
       {:yaml_elixir, "~> 2.11"},
-      {:tailwind, "~> 0.2", only: :dev},
       {:slugify, "~> 1.3"},
-      {:heroicons,
-       github: "tailwindlabs/heroicons",
-       tag: "v2.1.1",
-       sparse: "optimized",
-       app: false,
-       compile: false,
-       depth: 1},
       {:plug, "~> 1.19"},
       {:bandit, "~> 1.9"},
       {:req, "~> 0.5.16"}
@@ -41,12 +33,11 @@ defmodule PersonalSite.MixProject do
 
   defp aliases do
     [
-      setup: ["tailwind.install --if-missing"],
+      setup: ["deps.get", "compile"],
       publish: [
         "clean",
         "compile",
-        "build",
-        "tailwind personal_site --minify"
+        "build"
       ]
     ]
   end

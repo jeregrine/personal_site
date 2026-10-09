@@ -61,7 +61,8 @@ defmodule Post do
         image_url_rewriter: "/assets/{@url}"
       ],
       syntax_highlight: [
-        formatter: {:html_inline, theme: "github_light"}
+        engine: :lumis,
+        opts: [formatter: {:html_inline, theme: "github_light"}]
       ]
     )
     |> MDEx.traverse_and_update(fn

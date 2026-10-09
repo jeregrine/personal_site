@@ -6,7 +6,9 @@ No database, Docker, or Node.js installation is required.
 
 Styles live in `assets/css/app.css`, using Inter for text and Fira Mono for
 dates and code. There is no Tailwind, esbuild, Bun, npm, or JavaScript bundle.
-Markdown code blocks use the `github_light` syntax-highlighting theme.
+Markdown code blocks use Lumis with the `github_light` syntax-highlighting theme.
+The full WASM parser bundle keeps language support available at build time,
+without runtime parser downloads.
 
 ## Development setup
 

@@ -55,12 +55,36 @@ defmodule PersonalSiteTest do
     assert html =~ "<strong>Elixir</strong>"
   end
 
-  test "highlights code with the light theme" do
-    html = Post.convert("example.md", "```elixir\nIO.puts(\"hello\")\n```", %{}, [])
+  test "highlights multiple languages with Lumis and the light theme" do
+    for {language, code} <- [
+          {"elixir", ~s|IO.puts("hello")|},
+          {"sh", ~s|echo "hello"|},
+          {"javascript", ~s|console.log("hello")|},
+          {"rust", ~s|fn main() { println!("hello"); }|}
+        ] do
+      html = Post.convert("example.md", "```#{language}\n#{code}\n```", %{}, [])
 
-    assert html =~ "<pre"
-    assert html =~ "background-color: #ffffff"
-    assert html =~ "color: #1f2328"
+      assert html =~ ~s(<pre class="lumis")
+      assert html =~ "background-color: #ffffff"
+      assert html =~ "color: #1f2328"
+      assert html =~ ~s(<span style="color:)
+    end
+  end
+
+  test "renders code without a known language and escapes HTML" do
+    for language <- ["", "not-a-language"] do
+      html =
+        Post.convert(
+          "example.md",
+          "```#{language}\n<script>alert('hello')</script>\n```",
+          %{},
+          []
+        )
+
+      assert html =~ "<pre"
+      assert html =~ "&lt;script&gt;"
+      refute html =~ "<script>"
+    end
   end
 
   test "serves the source stylesheet without an asset build" do

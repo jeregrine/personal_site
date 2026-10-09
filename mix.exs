@@ -20,14 +20,16 @@ defmodule PersonalSite.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nimble_publisher, "~> 1.0"},
-      {:phoenix_live_view, "~> 1.1"},
-      {:mdex, "~> 0.10.0"},
-      {:yaml_elixir, "~> 2.11"},
+      {:nimble_publisher, "~> 2.1"},
+      {:phoenix_live_view, "~> 1.2"},
+      {:mdex, "~> 0.14.1"},
+      {:lumis, "~> 0.10.0"},
+      {:lumis_wasm_bundle_full, "~> 0.1.2"},
+      {:yaml_elixir, "~> 2.12"},
       {:slugify, "~> 1.3"},
-      {:plug, "~> 1.19"},
-      {:bandit, "~> 1.9"},
-      {:req, "~> 0.5.16"}
+      {:plug, "~> 1.20"},
+      {:bandit, "~> 1.12"},
+      {:req, "~> 0.7.4"}
     ]
   end
 
